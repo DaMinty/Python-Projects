@@ -11,10 +11,12 @@ def run_command(command_parts: list[str]) -> tuple[bool, str]:
         raw_data = subprocess.check_output(command, shell=True)
         data = raw_data.decode()
     except Exception as err:
-        sanitized_error = str(err)
-        sanitized_error = sanitized_error.split("'")[2]
-        sanitized_error = sanitized_error.title()
-        sanitized_error = sanitized_error.strip()
+        sanitized_error = (
+            str(err)
+            .split("'")[2]
+            .title()
+            .strip()
+        )
         return False, sanitized_error
     
     return True, data
@@ -28,20 +30,28 @@ def get_all_ssid() -> tuple[bool, dict[int, str]]:
 
     if success:
         # Sanitize
-        data = str(result)
-        data = data.split("\r\n")
+        data = (
+            str(result)
+            .split("\r\n")
+        )
         
         # Sort Profiles
         profiles = {}
+        x = 0
 
         for i, profile in enumerate(data, 1):
             if profile:
-                profile = profile.split(":")[1]
-                profile = profile.strip()
+                profile = (
+                    str(profile)
+                    .split(":")[1]
+                    .strip()
+                )
                 profiles.update({ i: profile })
+                x = i
 
+        # Add a fake wifi for testing errors
         profiles.update({
-            99: "Free-Wifi"
+            x: "Free-Wifi"
         })
     else: return False, result
 
@@ -56,9 +66,11 @@ def get_password(ssid: str) -> tuple[bool, str]:
     
     if success:
         # Sanitize
-        sanitized_data = str(result)
-        sanitized_data = sanitized_data.split(":")[1]
-        sanitized_data = sanitized_data.strip()
+        sanitized_data = (
+            str(result)
+            .split(":")[1]
+            .strip()
+        )
         
         return True, sanitized_data
     else:
