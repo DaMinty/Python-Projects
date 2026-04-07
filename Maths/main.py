@@ -12,18 +12,6 @@ def swap_operators(operator: str) -> str:
         "/": "÷"
     }))
 
-    # mapping = {
-    #     "×": "*",
-    #     "*": "×",
-    #     "÷": "/",
-    #     "/": "÷"
-    # }
-
-    # for k, v in mapping.items():
-    #     operator = operator.replace(k, v)
-    
-    # return operator
-
 def get_rand(length: int) -> int:
     """
     Get random didget based off length
